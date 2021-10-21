@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,6 +10,20 @@
     <title>Calories Counter</title>
 </head>
 <body>
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col align-self-start">
+                <h1>Calories</h1>
+            </div>
+            <div class="col align-self-center">
+                <h1>Counter</h1>
+            </div>
+            <div class="col align-self-end">
+                <img src="{% static 'burn.png' %}" style="max-height: 150px; max-width: 150px;">
+            </div>
+        </div>
+    </div>
     <br>
     <div class="container">
         <form method="POST">
@@ -102,7 +117,7 @@
         <div class="container">
             <h3>Your daily calories:</h3>
             <div class="progress" style="height: 35px;">
-                <div class="{{ percentage_bar_color }} progress-bar-animated" role="progressbar" aria-valuenow="{{ percentage }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ percentage }}%">
+                <div class="{{ percentage_bar_color }} progress-bar-animated" role="progressbar" aria-valuenow="{{ percentage }}" aria-valuemin="0" aria-valuemax="100" style='width: {{ percentage }}%'>
                 {{ today_calories }} of {{ total_day_calories }} Calories
                 </div>
             </div>
