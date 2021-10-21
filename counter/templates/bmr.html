@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <title>BMR Calculator</title>
+</head>
+<body>
+    <br>
+    <div class="container">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="name_input" class="form-label">Your Name</label>
+                <input type="text" class="form-control" id="name_input" placeholder="name" name="name" required>
+            </div>
+            <div class="mb-3">
+                <label for="weight_input" class="form-label">Weight</label>
+                <input type="number" class="form-control" id="weight_input" placeholder="75" name="weight" required>
+            </div>
+            <div class="mb-3">
+                <label for="height_input" class="form-label">Height</label>
+                <input type="number" class="form-control" id="height_input" placeholder="183" name="height" required>
+            </div>
+            <div class="mb-3">
+                <label for="age_input" class="form-label">Age</label>
+                <input type="number" class="form-control" id="age_input" placeholder="25" name="age" required>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" id="flexRadioDefault1" value="men" name="radio_button" checked/>
+                <label class="form-check-label" for="flexRadioDefault1">Men</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" id="flexRadioDefault2" value="woman" name="radio_button"/>
+                <label class="form-check-label" for="flexRadioDefault2">Woman</label>
+            </div>
+            <br>
+            <select class="form-select" aria-label="Default select example" name="select_field">
+                <option value="0+None" selected>Activity level</option>
+                <option value="1.2+Sedentary: little or no exercise">Sedentary: little or no exercise</option>
+                <option value="1.375+Exercise 1-3 times/week">Exercise 1-3 times/week</option>
+                <option value="1.55+Exercise 3-5 times/week">Exercise 3-5 times/week</option>
+                <option value="1.725+Intense exercise 6-7 times/week">Intense exercise 6-7 times/week</option>
+                <option value="1.9+Very intense exercise daily, or physical job">Very intense exercise daily, or physical job</option>
+            </select>
+            <br>
+            <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary" name="submit">Calculate</button>
+            </div>
+        </form>
+    </div>
+    <br>
+    {% if "submit" in request.POST %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="container">
+                    <div class="alert alert-danger" role="alert">
+                        <p class="text-center"><strong>{{ message }}</strong></p>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %} 
+            <br>
+            <div class="container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Your BMR:</th>
+                            <th>{{ bmr }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Weight</td>
+                            <td>{{ weight }}</td>
+                        </tr>
+                        <tr>
+                            <td>Height</td>
+                            <td>{{ height }}</td>
+                        </tr>
+                        <tr>
+                            <td>Age</td>
+                            <td>{{ age }}</td>
+                        </tr>
+                        <tr>
+                            <td>Gender</td>
+                            <td>{{ gender }}</td>
+                        </tr>
+                        <tr>
+                            <td>Activity level</td>
+                            <td>{{ activity }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+        <div class="container">
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <a href="{% url "index" %}" class="btn btn-primary" role="button">Calculate calories</a>
+            </div>
+        </div>
+    {% endif %}
+</body>
+</html>

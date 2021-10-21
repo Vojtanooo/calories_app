@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <title>Calories Counter</title>
+</head>
+<body>
+    <br>
+    <div class="container">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="name_input" class="form-label">Your Name</label>
+                <input type="text" class="form-control" id="name_input" placeholder="name" name="name" required>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="food_input" class="form-label">Food</label>
+                    <input type="text" class="form-control" id="food_input" placeholder="potatoes" name="food" required>
+                </div>
+                <div class="col">
+                    <label for="grams_input" class="form-label">Grams</label>
+                    <input type="number" class="form-control" id="grams_input" placeholder="100" name="grams" required>
+                </div>
+            </div>
+            <br>
+            <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary" name="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+    <br>
+    {% if "submit" in request.POST %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="container">
+                    <div class="alert alert-danger" role="alert">
+                        <p class="text-center"><strong>{{ message }}</strong></p>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %} 
+            <div class="container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">{{ food_name }}</th>
+                            <th>{{ serving_size }}g</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Calories</td>
+                            <td>{{ calories }}</td>
+                        </tr>
+                        <tr>
+                            <td>Carbs</td>
+                            <td>{{ carbs }}</td>
+                        </tr>
+                        <tr>
+                            <td>Protein</td>
+                            <td>{{ protein }}</td>
+                        </tr>
+                        <tr>
+                            <td>Fat</td>
+                            <td>{{ fat }}</td>
+                        </tr>
+                        <tr>
+                            <td>Saturated Fat</td>
+                            <td>{{ fat_saturated }}</td>
+                        </tr>
+                        <tr>
+                            <td>Cholesterol</td>
+                            <td>{{ cholesterol }}</td>
+                        </tr>
+                        <tr>
+                            <td>Fiber</td>
+                            <td>{{ fiber }}</td>
+                        </tr>
+                        <tr>
+                            <td>Sugar</td>
+                            <td>{{ sugar }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br>
+            <div class="container">
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary" name="apply">Apply</button>
+                    </div>
+                </form>
+            </div>
+        {% endif %}
+    {% elif "apply" in request.POST %}
+        <div class="container">
+            <h3>Your daily calories:</h3>
+            <div class="progress" style="height: 35px;">
+                <div class="{{ percentage_bar_color }} progress-bar-animated" role="progressbar" aria-valuenow="{{ percentage }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ percentage }}%">
+                {{ today_calories }} of {{ total_day_calories }} Calories
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</body>
+</html>
